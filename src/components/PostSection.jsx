@@ -1,41 +1,68 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { getPositions } from '../redux/userSlice';
+import RadioItem from './RadioItem';
 
 const PostSection = () => {
+    const [name, setName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [phone, setPhone] = React.useState('');
+    const {positions} = useSelector((state) => state.user)
+    const dispatch = useDispatch();
+    React.useEffect(() => {
+        dispatch(getPositions());
+        console.log(positions)
+    },[])
+    if(!positions){
+        return 'loading';
+    }
+
+    
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        switch (name) {
+          case "name":
+            setName(value);
+            break;
+          case "email":
+            setEmail(value);
+            break;
+          case "phone":
+            setPhone(value);
+            break;
+          default:
+            break;
+        }
+      };
+
     return (
         <section class="post-request">
             <div class="post-requset__inner">
-                <h1 class="section-title">Working with POST request</h1>
+                <h1 class="section-title">Working with POST request {name} {email} {phone}</h1>
                 <div class="mini-container">
                     <div class="input-block">
-                        <input type="text" name="name" id="name" placeholder=" " />
+                        <input type="text" name="name" id="name" placeholder=" " onChange={handleInputChange} value={name}/>
                         <label for="name">Your name</label>
+                        <span>Username should contain 2-60 characters</span>
                     </div>
                     <div class="input-block">
-                        <input type="text" name="email" id="email" placeholder=" " />
+                        <input type="text" name="email" id="email" placeholder=" " onChange={handleInputChange} value={email}/>
                         <label for="email">Email</label>
+                        <span>User email, must be a valid email according to RFC2822</span>
                     </div>
-                    <div class="input-block">
-                        <input type="text" name="Phone" id="Phone" placeholder=" " />
-                        <label for="Phone">Phone</label>
+                    <div class="input-block false-validation">
+                        <input type="phone" name="phone" id="phone" placeholder=" " onChange={handleInputChange} value={phone}/>
+                        <label for="phone">Phone</label>
+                        <span>+38 (XXX) XXX - XX - XX</span>
                     </div>
                     <div class="radio-block">
                         <p>Select your position </p>
-                        <div class="radio-item">
-                            <input type="radio" name="1" id="1" />
-                            <label for="1">Frontend developer</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" name="1" id="2" />
-                            <label for="2">Backend developer</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" name="1" id="3" />
-                            <label for="3">Designer</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" name="1" id="4" />
-                            <label for="4">QA</label>
-                        </div>
+                       {
+                        positions.map((item) => (
+                            <RadioItem key={item.id} position={item.name}/>
+                        ))
+                       }
                     </div>
                     <div class="image-block">
                         <label for="file">

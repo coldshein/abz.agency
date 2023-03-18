@@ -38,12 +38,13 @@ const PostSection = () => {
                         </div>
                     </div>
                     <div class="image-block">
-                        <div class="file-upload btn btn-primary">
-                            <span>BROWSE</span>
-                            <input type="file" name="FileAttachment" id="FileAttachment" class="upload" />
-                        </div>
-                        <input type="text" id="fileuploadurl" readonly placeholder="Maximum file size is 1GB" />
+                        <label for="file">
+                            <input type="file" id="file" />
+                            <div class="button-file">Upload</div>
+                            <span class="file-text">Upload your photo</span>
+                        </label>
                     </div>
+                    <button className="yellow-btn" disabled>Sing up</button>
                 </div>
             </div>
         </section>

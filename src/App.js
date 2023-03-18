@@ -7,7 +7,7 @@ import PostSection from './components/PostSection';
 function App() {
   return (
     <div className="App">
-      <Header/>
+      <Header />
       <div className="container">
         <main className="hero">
           <div className="hero-inner">
@@ -22,10 +22,11 @@ function App() {
           </div>
         </main>
       </div>
-      <GetSection/>
-      <PostSection/>
+      <GetSection />
+      <PostSection />
+      
     </div >
-    
+
   );
 }
 

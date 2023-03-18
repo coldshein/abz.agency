@@ -6,6 +6,9 @@ $light-gray: #F8F8F8;
 
 section {
     padding: 140px 0 0 0;
+    &:last-child{
+        padding-bottom: 100px;
+    }
 }
 
 .container {
@@ -20,17 +23,18 @@ section {
     margin: 0 auto;
     width: 100%;
     display: flex;
-    
+
     flex-direction: column;
 
     .yellow-btn {
-        align-items: center;
+        align-self: center;
         text-align: center;
         margin-top: 32px;
     }
 }
-.center-btn{
-  align-self: center;
+
+.center-btn {
+    align-self: center;
 }
 
 body {
@@ -163,8 +167,8 @@ header {
     width: 100%;
     display: grid;
     justify-content: center;
-    grid-template-columns: repeat(3, 33%);
-    gap: 16px;
+    grid-template-columns: repeat(3, 31%);
+    gap: 29px;
 
 }
 
@@ -178,7 +182,7 @@ header {
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    
+
 
 }
 
@@ -186,7 +190,7 @@ header {
     height: 70px;
     width: 70px;
     margin-bottom: 20px;
-   
+
 
     img {
         height: 100%;
@@ -202,9 +206,10 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
-    
+
 }
-.item-email{
+
+.item-email {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -225,7 +230,9 @@ header {
         border-radius: 4px;
         outline: none;
         background-color: transparent;
-        &:focus + label, &:not(:placeholder-shown)+ label{
+
+        &:focus+label,
+        &:not(:placeholder-shown)+label {
             top: 0;
             transform: translateY(-50%) scale(.8) translateX(-10px);
             background-color: $light-gray;
@@ -243,22 +250,26 @@ header {
         color: #7E7E7E;
         padding: 5px;
         transition: .2s ease-in;
-       
+
     }
 }
-.radio-block{
+
+.radio-block {
     margin-top: 14px;
     display: flex;
     flex-direction: column;
     gap: 13px;
 }
-.radio-item{
-    input{ 
+
+.radio-item {
+    input {
         position: absolute;
         opacity: 0;
-        + label{
+
+        +label {
             cursor: pointer;
-            &::before{
+
+            &::before {
                 display: inline-block;
                 content: '';
                 background-color: transparent;
@@ -272,32 +283,37 @@ header {
                 transition: .2s ease-in;
             }
         }
-       &:checked{
-        + label{
-            &::before{
-                border-color: $blue;
-                background-color: $blue;
-                box-shadow: inset 0 0 0 4px $light-gray;
+
+        &:checked {
+            +label {
+                &::before {
+                    border-color: $blue;
+                    background-color: $blue;
+                    box-shadow: inset 0 0 0 4px $light-gray;
+                }
             }
         }
-       }
     }
-    label{
+
+    label {
         margin-left: 12px;
     }
 }
-.image-block{
+
+.image-block {
     width: 100%;
     padding: 14px;
     position: relative;
-    input{
+
+    input {
         width: 20%;
         height: 100%;
         top: 0;
         left: 0;
         position: absolute;
         opacity: 0;
-        &::after{
+
+        &::after {
             content: '';
             height: 30px;
             width: 30px;
@@ -305,8 +321,75 @@ header {
             border-radius: 4px 0px 0px 4px;
         }
     }
-    label{
+
+    label {
         display: block;
         margin-left: auto;
+    }
+}
+
+.image-block {
+    margin-top: 50px;
+    width: 100%;
+    height: 54px;
+
+    label {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        position: relative;
+        cursor: pointer;
+
+        input {
+            width: 20%;
+            padding: 14px;
+            position: absolute;
+            opacity: 0;
+        }
+    }
+}
+
+.button-file {
+    padding: 14px;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.87);
+    border-radius: 4px 0px 0px 4px;
+}
+
+.file-text {
+    width: 100%;
+    border: 1px solid #D0CFCF;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    padding: 14px;
+    color: #7E7E7E;
+}
+
+@media (max-width: 1024px) {
+    .get-block{
+        grid-template-columns: repeat(3, 28%);
+    }
+}
+@media (max-width:768px) {
+    .get-block{
+        padding: 0 32px;
+        grid-template-columns: repeat(2, 50%);
+    }
+    .hero{
+        height: 500px;
+    }
+}
+@media (max-width:500px) {
+    section{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .get-block{
+        display: flex;
+        flex-direction: column;
+    }
+    .get-item{
+        width: 100%;
     }
 }

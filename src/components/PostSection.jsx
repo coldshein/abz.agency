@@ -10,23 +10,13 @@ const PostSection = () => {
     const [email, setEmail] = React.useState('');
     const [phone, setPhone] = React.useState('');
     const [photo, setPhoto] = React.useState(null);
-    const [positionId, setPositionId] = React.useState('');
     const [fileName, setFileName] = React.useState("Upload your photo");
-    const [disableBtn, setDisableBtn] = React.useState(true);
+   
     const { positions, token } = useSelector((state) => state.user)
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(getPositions());
         dispatch(getToken());
-        if (
-            name !== "" &&
-            email !== "" &&
-            phone !== "" &&
-            positions !== "" &&
-            photo !== ""
-        ) {
-            return setDisableBtn(false);
-        } else return setDisableBtn(true);
     }, [])
     if (!positions) {
         return 'loading';
@@ -58,47 +48,14 @@ const PostSection = () => {
                 break;
         }
     };
-    async function signUp(data) {
-        try {
-            const resp = await axios.post(`https://frontend-test-assignment-api.abz.agency/api/v1/users`, data, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
-            return resp.data;
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    const getid = async() => {
-        const resp = await axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users`);
-        console.log(resp.data);
-        return resp.data;
-        
-    }
-    getid();
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        const fileField = document.querySelector('input[type="file"]');
-        formData.append("position_id", positionId);
-        formData.append("name", name);
-        formData.append("email", email);
-        formData.append("phone", phone);
-        formData.append("photo", fileField.files[0]);
-        const resp = await signUp(formData);
-        const newUser = await (resp.user_id)
-        dispatch(setUsers((newUser.user)));
-
-    }
+    
 
     return (
         <section className="post-request">
             <div className="post-requset__inner">
                 <h1 className="section-title">Working with POST request {name} {email} {phone}</h1>
                 <div className="mini-container">
-                    <form action="" autoComplete="off" onSubmit={handleSubmit}>
+                    <form action="" autoComplete="off" >
                         <div className="input-block">
                             <input
                                 type="text"
@@ -154,7 +111,7 @@ const PostSection = () => {
                                         key={item.id}
                                         position={item.name}
                                         position_id={item.id}
-                                        onChange={(event) => setPositionId(event.target.value)}
+                                        onChange={console.log('sus')}
                                         required />
                                 ))
                             }

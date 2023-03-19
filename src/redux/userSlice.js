@@ -19,6 +19,20 @@ export const getUsers = createAsyncThunk(
         }
     }
 )
+export const getUserById = createAsyncThunk(
+    'user/getUserById',
+    async (_,{rejectWithValue}) => {
+        try {
+            const resp = await axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users/1`)
+            console.log(resp);
+            return resp;
+            
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+
+    }
+)
 export const getPositions = createAsyncThunk(
     'user/getPositions',
     async (_, { dispatch, rejectWithValue }) => {

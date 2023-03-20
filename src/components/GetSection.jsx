@@ -14,7 +14,9 @@ const GetSection = () => {
     const handleShowMore = () => {
         dispatch(setPage())
     }
-    
+    if(!users){
+        return 'loading...';
+    }
     return (
         <section className="get-request">
             <div className="container">
@@ -22,7 +24,7 @@ const GetSection = () => {
                     <h1 className="section-title">Working with GET request</h1>
                     <div className="get-block">
                         {
-                            users.map((user, index) => (
+                            users && users.map((user, index) => (
                                 <GetItem
                                     key={user.id}
                                     {...user}

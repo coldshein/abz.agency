@@ -388,6 +388,12 @@ header {
     padding: 14px;
     color: #7E7E7E;
 }
+.success-block{
+    text-align: center;
+    img{
+        margin-top: 50px;
+    }
+}
 
 @media (max-width: 1024px) {
     .get-block{

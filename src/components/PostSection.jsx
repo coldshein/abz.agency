@@ -14,9 +14,12 @@ const PostSection = () => {
     const [position, setPosition] = React.useState('');
     const [fileName, setFileName] = React.useState("Upload your photo");
     const [isRegisterSuccessInfo, setIsRegisterSuccessInfo] = React.useState(false);
+    const [isNameValid, setIsNameValid] = React.useState(true);
+    const [isEmailValid, setIsEmailValid] = React.useState(true);
+    const [isPhoneValid, setIsPhoneValid] = React.useState(true);
 
 
-    const { positions, token} = useSelector((state) => state.user)
+    const { positions, token } = useSelector((state) => state.user)
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(getPositions());
@@ -28,6 +31,24 @@ const PostSection = () => {
         }
     }, [isRegisterSuccessInfo])
 
+    function handleNameChange(event) {
+        const newName = event.target.value;
+        const isValid = /^.{2,60}$/.test(newName);
+        setName(newName);
+        setIsNameValid(isValid);
+      }
+    function handlePhoneChange(event) {
+        const newPhone = event.target.value;
+        const isValid = /^[\+]{0,1}380([0-9]{9})$/.test(newPhone);
+        setPhone(newPhone);
+        setIsPhoneValid(isValid);
+      }
+    function handleEmailChange(event) {
+        const newEmail = event.target.value;
+        const isValid = /^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}/.test(newEmail);
+        setEmail(newEmail);
+        setIsEmailValid(isValid);
+      }
 
     const getFileName = (e) => {
         const file = e.currentTarget.value.split("");
@@ -37,22 +58,7 @@ const PostSection = () => {
     };
 
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        switch (name) {
-            case "name":
-                setName(value);
-                break;
-            case "email":
-                setEmail(value);
-                break;
-            case "phone":
-                setPhone(value);
-                break;
-            default:
-                break;
-        }
-    };
+
     const postUser = async (formData) => {
         const requestOptions = {
             method: "POST",
@@ -103,28 +109,27 @@ const PostSection = () => {
                             <h1 className="section-title">Working with POST request {name} {email} {phone}</h1>
                             <div className="mini-container">
                                 <form action="" autoComplete="off" onSubmit={handleSubmit}>
-                                    <div className="input-block">
+                                    <div className={`input-block ${!isNameValid ? `false-validation` : ''}`}>
                                         <input
                                             type="text"
                                             name="name"
                                             id="name"
                                             placeholder=" "
-                                            onChange={handleInputChange}
                                             value={name}
-                                            pattern="^[A-Za-z]{2,60}"
+                                            onChange={handleNameChange}
                                             title="Username should contain 2-60 characters"
                                             required
                                         />
                                         <label htmlFor="name">Your name</label>
-                                        <span>Username should contain 2-60 characters</span>
+                                        {!isNameValid && <span>Username should contain 2-60 characters</span>}
                                     </div>
-                                    <div className="input-block">
+                                    <div className={`input-block ${!isNameValid ? `false-validation` : ''}`}>
                                         <input
                                             type="text"
                                             name="email"
                                             id="email"
                                             placeholder=" "
-                                            onChange={handleInputChange}
+                                            onChange={handleEmailChange}
                                             value={email}
                                             minLength="2"
                                             maxLength="60"
@@ -135,13 +140,13 @@ const PostSection = () => {
                                         <label htmlFor="email">Email</label>
                                         <span>User email, must be a valid email according to RFC2822</span>
                                     </div>
-                                    <div className="input-block false-validation">
+                                    <div className={`input-block ${!isNameValid ? `false-validation` : ''}`}>
                                         <input
                                             type="tel"
                                             name="phone"
                                             id="phone"
                                             placeholder=" "
-                                            onChange={handleInputChange}
+                                            onChange={handlePhoneChange}
                                             value={phone}
                                             pattern="[\+]{0,1}380([0-9]{9})$"
                                             title="User phone number. Number should start with code of Ukraine +380"

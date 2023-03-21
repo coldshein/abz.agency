@@ -6,6 +6,7 @@ const initialState = {
     page: 1,
     positions: [],
     token: {},
+    signup: {},
 }
 
 export const getUsers = createAsyncThunk(
@@ -19,6 +20,20 @@ export const getUsers = createAsyncThunk(
         }
     }
 )
+export const postUser = createAsyncThunk(
+    'user/postUser',
+    async ({requsetOptions}, {dispatch,rejectWithValue}) => {
+        try {
+            const {data} = await axios('https://frontend-test-assignment-api.abz.agency/api/v1/users', requsetOptions)
+            dispatch(setSignUp(data));
+            console.log(data);  
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
+
 export const getUserById = createAsyncThunk(
     'user/getUserById',
     async (_,{rejectWithValue}) => {
@@ -71,9 +86,12 @@ export const userSlice = createSlice({
         },
         setToken: (state, action) => {
             state.token = action.payload
+        },
+        setSignUp: (state, action) => {
+            state.signup = action.payload
         }
     }
 })
-export const { setUsers, setPage, setPositions, setToken } = userSlice.actions
+export const { setUsers, setPage, setPositions, setToken, setSignUp } = userSlice.actions
 
 export default userSlice.reducer

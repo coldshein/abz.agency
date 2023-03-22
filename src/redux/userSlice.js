@@ -7,6 +7,8 @@ const initialState = {
     positions: [],
     token: {},
     signup: {},
+    isLoading: '',
+    error: null,
 }
 
 export const getUsers = createAsyncThunk(
@@ -15,24 +17,24 @@ export const getUsers = createAsyncThunk(
         try {
             const { data } = await axios.get(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`);
             dispatch(setUsers(data.users))
-        } catch (error) {
-            return rejectWithValue(error.message)
-        }
-    }
-)
-export const postUser = createAsyncThunk(
-    'user/postUser',
-    async ({requsetOptions}, {dispatch,rejectWithValue}) => {
-        try {
-            const {data} = await axios('https://frontend-test-assignment-api.abz.agency/api/v1/users', requsetOptions)
-            dispatch(setSignUp(data));
-            console.log(data);  
+            return data.users;
         } catch (error) {
             return rejectWithValue(error.message)
         }
     }
 )
 
+export const postUser = createAsyncThunk(
+    'user/postUser',
+    async ({requestOptions},{rejectWithValue}) => {
+        try{
+            const {data} = await axios.post(`https://frontend-test-assignment-api.abz.agency/api/v1/users`, requestOptions);
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message)
+        }
+    }
+)
 
 export const getUserById = createAsyncThunk(
     'user/getUserById',
@@ -75,11 +77,11 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUsers: (state, action) => {
-            state.users = action.payload
-        },
         setPage: (state) => {
             state.page++
+        },
+        setUsers: (state, action) => {
+            state.users = action.payload;
         },
         setPositions: (state, action) => {
             state.positions = action.payload
@@ -90,6 +92,20 @@ export const userSlice = createSlice({
         setSignUp: (state, action) => {
             state.signup = action.payload
         }
+    },
+    extraReducers: (builder) => {
+        builder
+        .addCase(getUsers.pending, (state) => {
+            state.isLoading = 'pending';
+            state.error = null;
+        })
+        .addCase(getUsers.fulfilled, (state, action) => {
+            state.isLoading = 'fulfilled';
+        })
+        .addCase(getUsers.rejected, (state, action) => {
+            state.isLoading = 'rejected';
+            state.error = action.error.message
+        })
     }
 })
 export const { setUsers, setPage, setPositions, setToken, setSignUp } = userSlice.actions

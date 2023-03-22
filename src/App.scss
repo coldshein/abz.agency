@@ -4,13 +4,16 @@ $yellow: #F4E041;
 $blue: #00BDD3;
 $light-gray: #F8F8F8;
 
-html{
+html {
     background: $light-gray;
 }
-
+input, button{
+    outline: none !important;
+}
 section {
     padding: 140px 0 0 0;
-    &:last-child{
+
+    &:last-child {
         padding-bottom: 100px;
     }
 }
@@ -257,7 +260,8 @@ header {
         transition: .2s ease-in;
 
     }
-    span{
+
+    span {
         position: absolute;
         left: 0;
         bottom: -45%;
@@ -265,14 +269,17 @@ header {
         color: #7E7E7E;
         line-height: 1.16;
     }
-    &.false-validation{
-        span{
-            color: #CB3D40 ;
+
+    &.false-validation {
+        span {
+            color: #CB3D40;
         }
-        input{
+
+        input {
             border-color: #CB3D40;
         }
-        label{
+
+        label {
             color: #CB3D40;
         }
     }
@@ -356,6 +363,7 @@ header {
     width: 100%;
     height: 54px;
 
+
     label {
         height: 100%;
         display: flex;
@@ -378,47 +386,83 @@ header {
     cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.87);
     border-radius: 4px 0px 0px 4px;
+    
 }
 
 .file-text {
+    display: block;
+    height: 100%;
     width: 100%;
     border: 1px solid #D0CFCF;
     border-left: none;
     border-radius: 0 4px 4px 0;
     padding: 14px;
     color: #7E7E7E;
+    overflow: hidden;
+        text-overflow: ellipsis;
 }
-.success-block{
-    text-align: center;
+@keyframes loading {
+    0%{
+        transform: rotate(0deg);
+    }
+    50%{
+        transform: rotate(180deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+.loader-block{
+    height: 550px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loader{
     img{
+        animation: loading .5s ease-in-out infinite;
+    }
+   
+}
+
+.success-block {
+    text-align: center;
+
+    img {
         margin-top: 50px;
     }
 }
 
 @media (max-width: 1024px) {
-    .get-block{
+    .get-block {
         grid-template-columns: repeat(3, 28%);
     }
 }
+
 @media (max-width:768px) {
-    .get-block{
+    .get-block {
         padding: 0 32px;
         grid-template-columns: repeat(2, 50%);
     }
-    .hero{
+
+    .hero {
         height: 500px;
     }
 }
+
 @media (max-width:500px) {
-    section{
+    section {
         padding-left: 16px;
         padding-right: 16px;
     }
-    .get-block{
+
+    .get-block {
         display: flex;
         flex-direction: column;
     }
-    .get-item{
+
+    .get-item {
         width: 100%;
     }
 }

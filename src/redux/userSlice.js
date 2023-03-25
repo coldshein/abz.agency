@@ -6,8 +6,8 @@ const initialState = {
     page: 1,
     positions: [],
     token: {},
-    signup: {},
-    isLoading: '',
+    signUp: {},
+    isLoading: 'null',
     error: null,
 }
 
@@ -25,18 +25,24 @@ export const getUsers = createAsyncThunk(
 )
 
 export const postUser = createAsyncThunk(
-    'user/postUser',
-    async ({requestOptions},{rejectWithValue}) => {
-        try{
-            const {data} = await axios.post(`https://frontend-test-assignment-api.abz.agency/api/v1/users`, requestOptions);
-            return data;
-        } catch (error) {
-            return rejectWithValue(error.message)
-        }
+    'users/postUser',
+    async (formData, { rejectWithValue, getState }) => {
+      const token = getState().user.token;
+      const config = {
+        headers: { 'Token': token },
+      };
+  
+      try {
+        const data = await axios.post('https://frontend-test-assignment-api.abz.agency/api/v1/users', formData, config);
+        console.log(data);
+        return data;
+      } catch (err) {
+        return rejectWithValue(err.response.data); // return the error data using rejectWithValue
+      }
     }
-)
+  );
 
-export const getUserById = createAsyncThunk(
+export const getUserById = createAsyncThunk(    
     'user/getUserById',
     async (_,{rejectWithValue}) => {
         try {
@@ -89,9 +95,7 @@ export const userSlice = createSlice({
         setToken: (state, action) => {
             state.token = action.payload
         },
-        setSignUp: (state, action) => {
-            state.signup = action.payload
-        }
+        reset: () => initialState,
     },
     extraReducers: (builder) => {
         builder
@@ -106,8 +110,20 @@ export const userSlice = createSlice({
             state.isLoading = 'rejected';
             state.error = action.error.message
         })
+        .addCase(postUser.pending , (state) => {
+            state.signUp = 'pending';
+            state.error = null;
+        })
+        .addCase(postUser.fulfilled, (state) => {
+            state.signUp = 'fulfilled';
+        })
+        .addCase(postUser.rejected, (state, action) => {
+            state.error = action.error.message;
+            state.signUp = 'rejected';
+        })
+        
     }
 })
-export const { setUsers, setPage, setPositions, setToken, setSignUp } = userSlice.actions
+export const { setUsers, setPage, setPositions, setToken, setSignUp, reset } = userSlice.actions
 
 export default userSlice.reducer

@@ -414,6 +414,7 @@ header {
     color: #7E7E7E;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 @keyframes loading {

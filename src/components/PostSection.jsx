@@ -10,10 +10,6 @@ import { Formik, Field, ErrorMessage, Form } from 'formik';
 
 
 const PostSection = () => {
-    const [photo, setPhoto] = React.useState(null);
-    const [fileName, setFileName] = React.useState("Upload your photo");
-
-    const [position, setPosition] = React.useState(null);
 
     const [isRegisterSuccessInfo, setIsRegisterSuccessInfo] = React.useState(false);
 
@@ -34,13 +30,6 @@ const PostSection = () => {
     }, [signUp])
 
 
-    const getFileName = (e) => {
-        const file = e.currentTarget.value.split("");
-        file.splice(0, 12);
-        setFileName(file.join(""));
-        setPhoto(e.currentTarget.value);
-    };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -53,7 +42,7 @@ const PostSection = () => {
     const validateName = value => {
         let error;
         if (!value) {
-            error = null;
+            error = 'Username should contain 2-60 characters';
         } else if (!/^[aA-zZ]{2,60}$/i.test(value)) {
             error = 'Username should contain 2-60 characters';
         }
@@ -63,7 +52,7 @@ const PostSection = () => {
     const validateEmail = value => {
         let error;
         if (!value) {
-            error = null;
+            error = 'User email, must be a valid email according to RFC2822';
         } else if (!/^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/i.test(value)) {
             error = 'User email, must be a valid email according to RFC2822';
         }
@@ -88,6 +77,14 @@ const PostSection = () => {
         return error;
     }
 
+    const validatePhoto = value => {
+        const errors = {};
+        if (!value.image) {
+            errors.image = 'Please select an image.';
+        }
+        return errors;
+    }
+
     return (
         <section className="post-request">
             <div className="post-requset__inner">
@@ -106,7 +103,7 @@ const PostSection = () => {
                                             email: '',
                                             phone: '',
                                             position: '',
-                                            photo: null,
+                                            photo: '0',
                                         }
                                     }
                                     onSubmit={(values) => {
@@ -121,23 +118,42 @@ const PostSection = () => {
                                         dispatch(postUser(formData));
                                     }}
                                 >
-                                    {({ values, errors, touched, isValid, handleChange, setFieldValue }) => (
-                                        <Form autoComplete='false'>
+                                    {({ values, errors, touched, isValid, handleChange, setFieldValue, handleBlur }) => (
+                                        <Form autoComplete={false}>
                                             <div className={`input-block ${errors.name && touched.name ? `false-validate` : ``}`}>
 
-                                                <Field type="text" name="name" validate={validateName} className="input-text" placeholder=" " />
+                                                <Field
+                                                    type="text"
+                                                    name="name"
+                                                    validate={validateName}
+                                                    className="input-text"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    placeholder=" " />
                                                 <label htmlFor="name">Name</label>
                                                 <ErrorMessage name="name" component="div" className='error-message' />
                                             </div>
                                             <div className={`input-block ${errors.email && touched.email ? `false-validate` : ``}`}>
 
-                                                <Field type="email" name="email" validate={validateEmail} className="input-text" placeholder=" " />
+                                                <Field
+                                                    type="email"
+                                                    name="email"
+                                                    validate={validateEmail}
+                                                    className="input-text"
+                                                    placeholder=" "
+                                                />
                                                 <label htmlFor="email">Email</label>
                                                 <ErrorMessage name="email" component="div" className='error-message' />
                                             </div>
                                             <div className={`input-block ${errors.phone && touched.phone ? `false-validate` : ``}`}>
 
-                                                <Field type="tel" name="phone" validate={validatePhone} className="input-text" placeholder=" " />
+                                                <Field
+                                                    type="tel"
+                                                    name="phone"
+                                                    validate={validatePhone}
+                                                    className="input-text"
+                                                    placeholder=" "
+                                                />
                                                 <label htmlFor="phone">Phone</label>
                                                 <ErrorMessage name="phone" component="div" className='error-message' />
                                             </div>
@@ -154,16 +170,28 @@ const PostSection = () => {
                                                             required />
                                                     ))
                                                 }
+
                                             </div>
                                             <div className="image-block">
                                                 <label htmlFor="file">
-                                                    <input type="file" id="file" accept="image/jpg" size={5242880} required />
+                                                    <Field
+                                                        type="file"
+                                                        id="photo"
+                                                        name="photo"
+                                                        accept="image/*"
+                                                        value=""
+                                                        onChange={(event) => {
+                                                            const file = event.currentTarget.files[0];
+                                                            setFieldValue("photo", file);
+                                                        }}
+                                                        onBlur={handleBlur}
+                                                    />
                                                     <div className="button-file">Upload</div>
-                                                    <span className="file-text">{fileName}</span>
+                                                   <span className="file-text">{values.photo ? `${values.photo.name}` : 'Upload your photo'}</span>
                                                 </label>
                                             </div>
 
-                                            <button type="submit" disabled={!isValid || false} className="yellow-btn">
+                                            <button type="submit" disabled={!isValid} className="yellow-btn">
                                                 Submit
                                             </button>
                                         </Form>

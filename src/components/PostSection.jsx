@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useDispatch, useSelector, getState } from 'react-redux';
 import { getPositions, getToken, getUsers, postUser, reset } from '../redux/userSlice';
 import { useReset } from '@reduxjs/toolkit'
@@ -9,7 +9,7 @@ import Loader from './Loader';
 import { Formik, Field, ErrorMessage, Form } from 'formik';
 
 
-const PostSection = () => {
+const PostSection = ({signUpBlock}) => {
 
     const [isRegisterSuccessInfo, setIsRegisterSuccessInfo] = React.useState(false);
 
@@ -29,11 +29,6 @@ const PostSection = () => {
 
     }, [signUp])
 
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-    }
 
     if (signUp === 'pending') {
         return <Loader />
@@ -63,6 +58,9 @@ const PostSection = () => {
         let error;
         if (!value) {
             error = '38 (XXX) XXX - XX - XX';
+        } else if (value.length > 13) {
+            error = 'Too many numbers'
+        
         } else if (!/[\+]{0,1}380([0-9]{9})$/i.test(value)) {
             error = 'Number should start with code of Ukraine +380';
         }
@@ -77,16 +75,21 @@ const PostSection = () => {
         return error;
     }
 
-    const validatePhoto = value => {
-        const errors = {};
-        if (!value.image) {
-            errors.image = 'Please select an image.';
+    const validatePhoto = (value) => {
+        let error;
+      
+        if (!value) {
+          error = 'Please select an image.';
+        } else if (value.size > 5 * 1024 * 1024) {
+          error = 'Selected image should be less than 5 MB.';
         }
-        return errors;
-    }
+      
+        return error;
+      };
 
+     
     return (
-        <section className="post-request">
+        <section className="post-request" ref={signUpBlock}>
             <div className="post-requset__inner">
                 {
                     signUp === 'fulfilled' ? (
@@ -103,7 +106,7 @@ const PostSection = () => {
                                             email: '',
                                             phone: '',
                                             position: '',
-                                            photo: '0',
+                                            photo: '',
                                         }
                                     }
                                     onSubmit={(values) => {
@@ -119,7 +122,7 @@ const PostSection = () => {
                                     }}
                                 >
                                     {({ values, errors, touched, isValid, handleChange, setFieldValue, handleBlur }) => (
-                                        <Form autoComplete={false}>
+                                        <Form>
                                             <div className={`input-block ${errors.name && touched.name ? `false-validate` : ``}`}>
 
                                                 <Field
@@ -157,7 +160,7 @@ const PostSection = () => {
                                                 <label htmlFor="phone">Phone</label>
                                                 <ErrorMessage name="phone" component="div" className='error-message' />
                                             </div>
-                                            <div className="radio-block">
+                                            <div className={`radio-block ${errors.position && touched.position ? `false-validate` : ``}`}>
                                                 <p>Select your position </p>
                                                 {
                                                     positions && positions.map((item) => (
@@ -170,25 +173,27 @@ const PostSection = () => {
                                                             required />
                                                     ))
                                                 }
-
+                                                <ErrorMessage name="position" className='error-message' component="div"/>
                                             </div>
-                                            <div className="image-block">
+                                            <div className={`image-block ${errors.photo && touched.photo ? `false-validate` : ``}`}>
                                                 <label htmlFor="file">
                                                     <Field
                                                         type="file"
                                                         id="photo"
                                                         name="photo"
-                                                        accept="image/*"
+                                                        accept="image/jpeg"
                                                         value=""
+                                                        validate={validatePhoto}
                                                         onChange={(event) => {
                                                             const file = event.currentTarget.files[0];
                                                             setFieldValue("photo", file);
                                                         }}
-                                                        onBlur={handleBlur}
                                                     />
                                                     <div className="button-file">Upload</div>
-                                                   <span className="file-text">{values.photo ? `${values.photo.name}` : 'Upload your photo'}</span>
+                                                   <span className="file-text">{!values.photo.name ? 'Upload your photo' : values.photo.name }</span>
+                                                   <ErrorMessage name='photo' component="div" className='error-message'/>
                                                 </label>
+                                                
                                             </div>
 
                                             <button type="submit" disabled={!isValid} className="yellow-btn">

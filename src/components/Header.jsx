@@ -1,6 +1,7 @@
 import React from 'react'
 
-const Header = () => {
+const Header = ({scrollToSignUp, signUpBlock, usersBlock}) => {
+    
     return (
         <header>
             <div className="container">
@@ -9,8 +10,8 @@ const Header = () => {
                         <img src="assets/logo.svg" alt="" />
                     </div>
                     <div className="header-menu">
-                        <button className="yellow-btn">Users</button>
-                        <button className="yellow-btn">Sign up</button>
+                        <button onClick={() => scrollToSignUp(usersBlock)} className="yellow-btn">Users</button>
+                        <button onClick={() => scrollToSignUp(signUpBlock)} className="yellow-btn">Sign up</button>
                     </div>
                 </div>
             </div>

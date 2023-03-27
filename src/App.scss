@@ -4,6 +4,16 @@ $yellow: #F4E041;
 $blue: #00BDD3;
 $light-gray: #F8F8F8;
 
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+    font-weight: 400;
+}
+
 html {
     background: $light-gray;
 }
@@ -33,10 +43,11 @@ section {
     margin: 0 auto;
     width: 100%;
     display: flex;
-
     flex-direction: column;
 
     .yellow-btn {
+        display: flex;
+        justify-content: center;
         align-self: center;
         text-align: center;
         margin-top: 32px;
@@ -49,16 +60,6 @@ section {
 
 body {
     background-color: $light-gray;
-}
-
-*,
-*::after,
-*::before {
-    margin: 0;
-    padding: 0;
-    font-family: 'Nunito', sans-serif;
-    box-sizing: border-box;
-    font-weight: 400;
 }
 
 h1 {
@@ -229,6 +230,10 @@ header {
 }
 
 // Post request
+form{
+    display: flex;
+    flex-direction: column;
+}
 
 .error-message {
     position: absolute;
@@ -304,6 +309,15 @@ header {
     display: flex;
     flex-direction: column;
     gap: 13px;
+    position: relative;
+    .error-message{
+        bottom: -30px;
+    }
+    &.false-validate{
+        .error-message{
+            color: #CB3D40;
+        }
+    }
 }
 
 .radio-item {
@@ -369,6 +383,11 @@ header {
     label {
         display: block;
         margin-left: auto;
+    }
+    &.false-validate{
+        .error-message{
+            color: #CB3D40;
+        }
     }
 }
 

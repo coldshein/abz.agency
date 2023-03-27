@@ -1,13 +1,20 @@
 
+import React from 'react'
 import './App.scss';
 import GetSection from './components/GetSection';
 import Header from './components/Header';
 import PostSection from './components/PostSection';
 
 function App() {
+  const signUpBlock = React.useRef();
+  const usersBlock = React.useRef();
+  const scrollToSignUp = (ref) => ref.current.scrollIntoView({ behavior: "smooth" });
+  
+  
+  
   return (
     <div className="App">
-      <Header />
+      <Header scrollToSignUp={scrollToSignUp} signUpBlock={signUpBlock} usersBlock={usersBlock}/>
       <div className="container">
         <main className="hero">
           <div className="hero-inner">
@@ -17,13 +24,13 @@ function App() {
                 of HTML, CSS, JS with a vast understanding of User design thinking as they'll be building web
                 interfaces with accessibility in mind. They should also be excited to learn, as the world of
                 Front-End Development keeps evolving.</p>
-              <button className="yellow-btn center-btn">Sign up</button>
+              <button onClick={() => scrollToSignUp(signUpBlock)} className="yellow-btn center-btn">Sign up</button>
             </div>
           </div>
         </main>
       </div>
-      <GetSection />
-      <PostSection />
+      <GetSection usersBlock={usersBlock}/>
+      <PostSection signUpBlock={signUpBlock}/>
       
     </div >
 

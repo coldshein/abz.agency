@@ -15,6 +15,7 @@ const RadioItem = ({ position, position_id, setFieldValue, validate }) => {
                 onChange={() => setFieldValue('position', position_id)}
             />
             <label htmlFor={position_id}>{position}</label>
+            
         </div>
     );
 }

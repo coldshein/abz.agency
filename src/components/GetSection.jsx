@@ -4,7 +4,7 @@ import { getUsers, setPage } from '../redux/userSlice';
 import GetItem from './GetItem';
 import Loader from './Loader';
 
-const GetSection = () => {
+const GetSection = ({usersBlock}) => {
     const dispatch = useDispatch();
     const { users, page, isLoading } = useSelector((state) => state.user);
     React.useEffect(() => {
@@ -16,7 +16,7 @@ const GetSection = () => {
     }
 
     return (
-        <section className="get-request">
+        <section className="get-request" ref={usersBlock}>
             <div className="container">
                 <div className="get-request__inner">
                     <h1 className="section-title">Working with GET request</h1>

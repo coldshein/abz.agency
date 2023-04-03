@@ -118,6 +118,14 @@ header {
     align-items: center;
     gap: 10px;
 }
+.logo-container{
+    width: 104px;
+    height: 26px;
+    img{
+        height: 100%;
+        width: 100%;
+    }
+}
 
 // 
 .hero {
@@ -125,7 +133,7 @@ header {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url(../public/assets/pexels-alexandr-podvalny-1227513.jpeg);
+    background-image: url(../public/assets/pexels-alexandr-podvalny-1227513.webp);
     position: relative;
 
     &::after {

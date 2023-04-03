@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, getState } from 'react-redux';
 import { getUsers, setPage } from '../redux/userSlice';
 import GetItem from './GetItem';
 import Loader from './Loader';
@@ -10,7 +10,7 @@ const GetSection = ({usersBlock}) => {
     React.useEffect(() => {
         dispatch(getUsers(page));
     }, [page])
-
+    
     const handleShowMore = () => {
         dispatch(setPage())
     }
@@ -35,7 +35,9 @@ const GetSection = ({usersBlock}) => {
                             </div>
                         )
                     }
-                    <button className="yellow-btn center" onClick={handleShowMore}>Show more</button>
+                   {
+                    page < 32 ?  <button className="yellow-btn center" onClick={handleShowMore}>Show more</button> : null
+                   }
                 </div>
             </div>
         </section>

@@ -8,10 +8,10 @@ const GetItem = ({email, name, phone, position, photo}) => {
             <div className="item-img">
                 <img src={photo} alt="" />
             </div>
-            <p className="item-name">{name}</p>
+            <p className="item-name" title={name}>{name}</p>
             <p className="item-position">{position}</p>
-            <p className="item-email">{email}</p>
-            <p className="item-phone">{phone}</p>
+            <a href={`mailto:${email}`}className="item-email" title={email}>{email}</a>
+            <a href={`tel:${phone}`} className="item-phone">{phone}</a>
         </div>
     );
 }

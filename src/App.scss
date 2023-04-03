@@ -4,6 +4,7 @@ $yellow: #F4E041;
 $blue: #00BDD3;
 $light-gray: #F8F8F8;
 
+// Common styles ================================================================
 *,
 *::after,
 *::before {
@@ -12,6 +13,10 @@ $light-gray: #F8F8F8;
     font-family: 'Nunito', sans-serif;
     box-sizing: border-box;
     font-weight: 400;
+}
+a{
+    color: #000000DE;
+    text-decoration: none !important;
 }
 
 html {
@@ -64,6 +69,7 @@ body {
 
 
 h1 {
+    user-select: none;
     font-weight: 400;
     font-size: 40px;
     line-height: 1;
@@ -71,6 +77,7 @@ h1 {
 }
 
 p {
+    user-select: none;
     font-weight: 400;
     font-size: 16px;
     line-height: 1.5;
@@ -98,7 +105,7 @@ p {
     }
 }
 
-// Header
+// Header ================================================================
 header {
     background-color: #FFFFFF;
     height: 60px;
@@ -149,13 +156,13 @@ header {
 }
 
 .hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 100%;
     width: 100%;
     position: relative;
     z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: #fff;
 }
 
@@ -168,7 +175,7 @@ header {
     text-align: center;
 }
 
-// Get request
+// Get request =====================================================================
 .section-title {
     margin-bottom: 50px;
 }
@@ -236,9 +243,10 @@ header {
     text-overflow: ellipsis;
     text-align: center;
     width: 100%;
+    
 }
 
-// Post request
+// Post request =====================================================================
 form{
     display: flex;
     flex-direction: column;
@@ -448,7 +456,7 @@ form{
         transform: rotate(360deg);
     }
 }
-
+// Loader block ===========================================
 .loader-block {
     height: 550px;
     width: 100%;
@@ -471,6 +479,8 @@ form{
         margin-top: 50px;
     }
 }
+
+// Adaptive =================================================
 
 @media (max-width: 1024px) {
     .get-block {

@@ -10,8 +10,6 @@ function App() {
   const usersBlock = React.useRef();
   const scrollToSignUp = (ref) => ref.current.scrollIntoView({ behavior: "smooth" });
   
-  
-  
   return (
     <div className="App">
       <Header scrollToSignUp={scrollToSignUp} signUpBlock={signUpBlock} usersBlock={usersBlock}/>
